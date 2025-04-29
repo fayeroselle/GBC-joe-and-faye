@@ -1,0 +1,136 @@
+SUMMARY:
+	ROM0: 10264 bytes used / 22504 free
+
+ROM0 bank #0:
+	SECTION: $0000-$0029 ($002a bytes) ["house_message"]
+	         $0000 = DATA_LABEL
+	EMPTY: $002a-$003f ($0016 bytes)
+	SECTION: $0040-$0040 ($0001 byte) ["vblank_interrupt"]
+	EMPTY: $0041-$00ff ($00bf bytes)
+	SECTION: $0100-$014f ($0050 bytes) ["header"]
+	         $0100 = entrypoint
+	EMPTY: $0150-$0154 ($0005 bytes)
+	SECTION: $0155-$029f ($014b bytes) ["main"]
+	         $0155 = main
+	         $0155 = main.wait_vblank_u1
+	         $0176 = main.wait_for_start
+	         $01b8 = main.wait_vblank_u2
+	         $01d2 = main.restart
+	         $01d7 = main.game_loop
+	         $022b = main.after_loc
+	         $023a = main.second_checker
+	         $0249 = main.level_two
+	         $029e = main.after_check
+	SECTION: $02a0-$049b ($01fc bytes) ["player"]
+	         $02a0 = make_sound
+	         $02b9 = check_outer_right
+	         $02cf = check_outer_right.other_house
+	         $02d8 = check_outer_right.end
+	         $02d9 = check_inner_right
+	         $02ef = check_inner_right.other_house
+	         $0305 = check_inner_right.end
+	         $0306 = check_right_map
+	         $030f = check_right_map.outer_right
+	         $0312 = check_right_map.end
+	         $0313 = check_beg_houses
+	         $031c = check_beg_houses.second_house
+	         $0325 = check_beg_houses.end
+	         $0326 = check_left_map
+	         $033a = check_left_map.check_mansion
+	         $0343 = check_left_map.end
+	         $0344 = check_location
+	         $0354 = check_location.check_right
+	         $0357 = check_location.end
+	         $0358 = house1_clue
+	         $035f = house2_clue
+	         $0366 = house3_clue
+	         $036d = house4_clue
+	         $0374 = house5_clue
+	         $037b = house6_clue
+	         $0382 = house7_clue
+	         $0389 = UpdateFuncTable
+	         $0397 = determine_house
+	         $03ac = determine_house.call_return_address_u1
+	         $03ad = determine_guess
+	         $03c5 = determine_guess.wrong_houses
+	         $03d9 = determine_guess.end
+	         $03da = check_end
+	         $03f1 = check_end.end
+	         $03f5 = end_wait
+	         $03f5 = end_wait.wait_for_end
+	         $043b = reset_game
+	         $046e = second_checker
+	         $048b = second_checker.done
+	         $048c = time_up
+	SECTION: $049c-$063e ($01a3 bytes) ["newplayer"]
+	         $049c = init_player
+	         $051b = npc_wave
+	         $0522 = npc_wave.wave_frame2
+	         $0528 = npc_wave.wave_frame1
+	         $052e = move_player
+	         $0547 = move_player.og_sprite_right
+	         $0551 = move_player.check_right
+	         $0558 = move_player.done_right
+	         $0572 = move_player.done_moving_right
+	         $058b = move_player.og_sprite_left
+	         $0595 = move_player.check_left
+	         $059c = move_player.done_left
+	         $05b6 = move_player.done_moving_left
+	         $05cf = move_player.og_sprite_up
+	         $05d9 = move_player.check_up
+	         $05e0 = move_player.done_up
+	         $05fa = move_player.done_moving_up
+	         $0613 = move_player.og_sprite_down
+	         $061d = move_player.check
+	         $0624 = move_player.done
+	         $063e = move_player.done_moving_down
+	SECTION: $063f-$074d ($010f bytes) ["newgraphics"]
+	         $063f = init_graphics
+	         $0654 = init_graphics.init_oam_u1
+	         $0660 = init_graphics.load_tile_u2
+	         $069d = write_message
+	         $06a0 = write_message.loop
+	         $06b2 = write_message.new_line
+	         $06b8 = write_message.end
+	         $06b9 = display_message
+	         $06bf = remove_message
+	         $06c5 = message_process
+	         $06ce = message_process.wait_for_start
+	         $0724 = girl_appear
+	         $072f = girl_removed
+	         $073a = flash_bg
+	         $073c = flash_bg.loop
+	EMPTY: $074e-$0fff ($08b2 bytes)
+	SECTION: $1000-$1029 ($002a bytes) ["house_message2"]
+	         $1000 = MESSAGE_LABEL
+	EMPTY: $102a-$10ff ($00d6 bytes)
+	SECTION: $1100-$1129 ($002a bytes) ["win_message"]
+	         $1100 = WIN_LABEL
+	EMPTY: $112a-$11ff ($00d6 bytes)
+	SECTION: $1200-$1229 ($002a bytes) ["house_message3"]
+	         $1200 = HOUSE3_LABEL
+	EMPTY: $122a-$12ff ($00d6 bytes)
+	SECTION: $1300-$1329 ($002a bytes) ["house_message4"]
+	         $1300 = HOUSE4_LABEL
+	EMPTY: $132a-$13ff ($00d6 bytes)
+	SECTION: $1400-$1429 ($002a bytes) ["house_message5"]
+	         $1400 = HOUSE5_LABEL
+	EMPTY: $142a-$14ff ($00d6 bytes)
+	SECTION: $1500-$1529 ($002a bytes) ["mansion_message"]
+	         $1500 = MANSION_LABEL
+	EMPTY: $152a-$15ff ($00d6 bytes)
+	SECTION: $1600-$1629 ($002a bytes) ["field_message"]
+	         $1600 = FIELD_LABEL
+	EMPTY: $162a-$16ff ($00d6 bytes)
+	SECTION: $1700-$1729 ($002a bytes) ["lose_message"]
+	         $1700 = LOSE_LABEL
+	EMPTY: $172a-$17ff ($00d6 bytes)
+	SECTION: $1800-$1829 ($002a bytes) ["level2_message"]
+	         $1800 = LEVEL2_LABEL
+	EMPTY: $182a-$18ff ($00d6 bytes)
+	SECTION: $1900-$1929 ($002a bytes) ["level2_mess"]
+	         $1900 = LEVEL2_LABEL2
+	EMPTY: $192a-$1fff ($06d6 bytes)
+	SECTION: $2000-$3fff ($2000 bytes) ["graphics_data"]
+	EMPTY: $4000-$7fff ($4000 bytes)
+	TOTAL EMPTY: $57e8 bytes
