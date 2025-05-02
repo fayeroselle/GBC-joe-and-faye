@@ -312,12 +312,126 @@ time_up:
     call reset_game
     ret
  
-export check_location, check_end, end_wait, reset_game, check_left_map
-export check_beg_houses, check_right_map, check_inner_right, check_outer_right, determine_house
-export determine_guess, second_checker, time_up, make_sound, npc_wave 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+; load the graphics data from ROM to VRAM
+macro LoadGraphicsDataIntoVRAM
+    ld de, GRAPHICS_DATA_ADDRESS_START
+    ld hl, _VRAM8000
+    .load_tile\@
+        ld a, [de]
+        inc de
+        ld [hli], a
+        ld a, d
+        cp a, high(GRAPHICS_DATA_ADDRESS_END)
+        jr nz, .load_tile\@
+endm
+
+;clear oam
+macro InitOAM
+    ld c, OAM_COUNT
+    ld hl, _OAMRAM + OAMA_Y
+    ld de, sizeof_OAM_ATTRS
+    .init_oam\@
+        ld [hl], 0
+        add hl, de
+        dec c
+        jr nz, .init_oam\@
+endm
 
 section "graphics_data", rom0[GRAPHICS_DATA_ADDRESS_START]
+
+tileset:
 incbin "assets/Tileset_new.chr"
-incbin "assets/new_background.tlm"
-incbin "assets/new_window.tlm"
+tileset_end:
+
+palette_data:
+incbin "assets/Tileset_new.pal"
+palette_data_end:
+
+background_indices:
+incbin "assets/new_background.idx"
+background_indices_end:
+
+background_parameters:
+incbin "assets/new_background.prm"
+background_parameters_end:
+
+window_indices:
+incbin "assets/new_window.idx"
+window_indices_end:
+
+window_parameters:
+incbin "assets/new_window.prm"
+window_parameters_end:
+
+init_graphics:
+    InitOAM
+    LoadGraphicsDataIntoVRAM
+    Copy [rBCPS], 0 | BCPSF_AUTOINC
+    ld hl, palette_data
+    ld c, palette_data_end - palette_data
+    .palette_copy
+        Copy [rBCPD], [hli]
+        dec c
+        jr nz, .palette_copy
+
+    Copy [rVBK], 0
+    ld de, _SCRN0
+    ld hl, background_indices
+    .tilemap_indices_copy
+        Copy [de], [hli]
+        inc de
+        ld a, l
+        cp a, low(background_indices_end)
+        ld a, h
+        jr nz, .tilemap_indices_copy
+        cp a, high(background_indices_end)
+        jr nz, .tilemap_indices_copy
+
+    
+    Copy [rVBK], 1
+    ld de, _SCRN0
+    ld hl, background_parameters
+    .tilemap_parameters_copy
+        Copy [de], [hli]
+        inc de
+        ld a, l
+        cp a, low(background_parameters_end)
+        ld a, h
+        jr nz, .tilemap_parameters_copy
+        cp a, high(background_parameters_end)
+        jr nz, .tilemap_parameters_copy
+       
+
+    Copy [rVBK], 0
+    ;ld de, $9C00
+    ld hl, window_indices
+    .window_indices_copy
+        Copy [de], [hli]
+        inc de
+        ld a, l
+        cp a, low(window_indices_end)
+        ld a, h
+        jr nz, .window_indices_copy
+        cp a, high(window_indices_end)
+        jr nz, .window_indices_copy
+
+    Copy [rVBK], 1
+    ld de, $9C00
+    ld hl, window_parameters
+    .window_parameters_copy
+        Copy [de], [hli]
+        inc de
+        ld a, l
+        cp a, low(window_parameters_end)
+        ld a, h
+        jr nz, .window_parameters_copy
+        cp a, high(window_parameters_end)
+        jr nz, .window_parameters_copy
+    ret
+
+export check_location, check_end, end_wait, reset_game, check_left_map
+export check_beg_houses, check_right_map, check_inner_right, check_outer_right, determine_house
+export determine_guess, second_checker, time_up, make_sound, init_graphics
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

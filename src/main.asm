@@ -14,6 +14,7 @@ include "src/hardware.inc"
 include "src/joypad.inc"
 include "src/graphics.inc"
 
+
 def WINDOW_Y   equ 144
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -73,79 +74,81 @@ main:
     DisableLCD
     call init_graphics
     EnableLCD
-    InitJoypad
+    .loop
+    jr .loop
+    ;InitJoypad
 
     ;display start screen until start is pressed
-    .wait_for_start:
-    UpdateJoypad     
-    ld a, [PAD_CURR]      
-    bit PADB_START, a
-    jr nz, .wait_for_start
+    ;.wait_for_start:
+    ;UpdateJoypad     
+    ;ld a, [PAD_CURR]      
+    ;bit PADB_START, a
+    ;jr nz, .wait_for_start
 
     ;remove the start screen and initialize sprites
-    DisableLCD
-    ld a, WINDOW_Y
-    ld [rWY], a
-    call init_player
-    EnableLCD
-    jr .game_loop
+    ;DisableLCD
+    ;ld a, WINDOW_Y
+    ;ld [rWY], a
+    ;call init_player
+    ;EnableLCD
+    ;jr .game_loop
 
-    .restart
-    call reset_game
+    ;.restart
+    ;call reset_game
 
-    ld c, 0
-    .game_loop
-        set_house_checker
-        push bc 
-        UpdateJoypad
-        pop bc
+    ;ld c, 0
+    ;.game_loop
+        ;set_house_checker
+        ;push bc 
+        ;UpdateJoypad
+        ;pop bc
         ;repeatedly check if main character or npc should move
-        call move_player
+        ;call move_player
         ;determine if the main character is at one of the clue locations
-        call check_location
-        halt
-        ld a, [HOUSE_CHECKER]
-        inc a
-        dec a
-        jr z, .after_loc
-            halt
-            call determine_house
-        .after_loc
-        call check_end
-        inc b 
-        dec b 
-        jr z, .second_checker
+        ;call check_location
+        ;halt
+        ;ld a, [HOUSE_CHECKER]
+        ;inc a
+        ;dec a
+        ;jr z, .after_loc
+            ;halt
+            ;call determine_house
+        ;.after_loc
+        ;call check_end
+        ;inc b 
+        ;dec b 
+        ;jr z, .second_checker
             ;if the player pressed start and select then jump to the guessing level
-            call end_wait
-            call reset_game
-            jr .level_two
-        .second_checker
-        call second_checker
-        call npc_wave
-        inc b 
-        dec b
-        jr z, .game_loop
+            ;call end_wait
+            ;call reset_game
+            ;jr .level_two
+        ;.second_checker
+        ;call second_checker
+        ;call npc_wave
+        ;inc b 
+        ;dec b
+        ;jr z, .game_loop
             ;if the player runs out of time (1 minute) to find clues it jumps to the guessing level
-            call time_up
-            jr .level_two
+            ;call time_up
+            ;jr .level_two
 
-    .level_two
-        push bc 
-        UpdateJoypad
-        pop bc
-        call move_player
+    ;.level_two
+        ;push bc 
+        ;UpdateJoypad
+        ;pop bc
+        ;call move_player
         ;detemine if the player is at a house
-        call check_location
-        halt
-        ld a, [HOUSE_CHECKER]
-        inc a
-        dec a
-        jr z, .after_check
+        ;call check_location
+        ;halt
+        ;ld a, [HOUSE_CHECKER]
+        ;inc a
+        ;dec a
+        ;jr z, .after_check
             ;determine if the player is at the right house
-            call determine_guess
-            inc b 
-            dec b
-            jr z, .level_two
-                jp .restart
-        .after_check
-        jr .level_two
+            ;call determine_guess
+            ;inc b 
+            ;dec b
+            ;jr z, .level_two
+                ;jp .restart
+        ;.after_check
+        ;jr .level_two

@@ -43,7 +43,7 @@ macro InitOAM
         jr nz, .init_oam\@
 endm
 
-init_graphics:
+init_graphics2:
     ; init the palettes
     ld a, DEFAULT_PAL
     ld [rBGP], a

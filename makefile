@@ -1,11 +1,11 @@
 
 .PHONY: all
 
-all: game.gb
+all: game.gbc
 
-game.gb: build build/sample.o build/main.o build/graphics.o build/player.o
-	rgblink --dmg --tiny --map game.map --sym game.sym -o game.gb build/main.o build/sample.o build/graphics.o build/player.o
-	rgbfix -v -p 0xFF game.gb
+game.gbc: build build/sample.o build/main.o build/graphics.o build/player.o
+	rgblink --tiny --map game.map --sym game.sym -o game.gbc build/main.o build/sample.o build/graphics.o build/player.o
+	rgbfix --title game --color-only --pad-value 0 --validate game.gbc
 
 build:
 	mkdir build
