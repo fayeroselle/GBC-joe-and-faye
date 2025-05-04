@@ -82,7 +82,8 @@ init_graphics2:
     ld [FRAME_COUNTER], a
     ld [SECOND_COUNTER], a
     ret
-
+  
+    
 write_message:  
     ; Loop until we hit the null terminator
     ld de, VRAM_LINE1

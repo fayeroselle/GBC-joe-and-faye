@@ -313,18 +313,32 @@ time_up:
     ret
  
 
-
 ; load the graphics data from ROM to VRAM
 macro LoadGraphicsDataIntoVRAM
-    ld de, GRAPHICS_DATA_ADDRESS_START
+    ld de, tileset
     ld hl, _VRAM8000
     .load_tile\@
         ld a, [de]
         inc de
         ld [hli], a
-        ld a, d
-        cp a, high(GRAPHICS_DATA_ADDRESS_END)
+        ld a, e
+        cp a, low(tileset_end)
         jr nz, .load_tile\@
+        ld a, d
+        cp a, high(tileset_end)
+        jr nz, .load_tile\@
+
+
+    ;Copy [rVBK], 1
+    ;ld de, tileset
+    ;ld hl, _VRAM8000
+    ;.load_tile1\@
+        ;ld a, [de]
+        ;inc de
+        ;ld [hli], a
+        ;ld a, d
+        ;cp a, high(tileset_end)
+        ;jr nz, .load_tile1\@
 endm
 
 ;clear oam
@@ -337,37 +351,76 @@ macro InitOAM
         add hl, de
         dec c
         jr nz, .init_oam\@
+
 endm
+
+LoadTilesBank0:
+    ld hl, tileset          ; ROM source for tile graphics
+    ld de, _VRAM8000        ; destination in VRAM bank 0
+    ld bc, TILES_BYTE_SIZE   ; total bytes to copy
+    Copy [rVBK], 0           ; select VRAM bank 0
+    
+    .copy_tiles0
+        ld a, [hl]               ; load byte from ROM
+        ld [de], a               ; write to VRAM
+        inc hl
+        inc de
+        dec bc
+        ld a, b
+        or c
+        jr nz, .copy_tiles0
+    ret
+
+LoadTilesBank1:
+    ld hl, tileset      ; ROM source for tile attributes
+    ld de, _VRAM8800         ; destination in VRAM bank 1
+    ld bc, TILES_BYTE_SIZE    ; total attribute bytes (same as tile count)
+    Copy [rVBK], 1           ; select VRAM bank 1
+    
+    .copy_tiles1
+        ld a, [hl]               ; load attribute byte
+        ld [de], a               ; write to VRAM bank 1
+        inc hl
+        inc de
+        dec bc
+        ld a, b
+        or c
+        jr nz, .copy_tiles1
+    ret
+
 
 section "graphics_data", rom0[GRAPHICS_DATA_ADDRESS_START]
 
 tileset:
-incbin "assets/Tileset_new.chr"
+incbin "assets/ship.chr"
 tileset_end:
 
+
 palette_data:
-incbin "assets/Tileset_new.pal"
+incbin "assets/ship.pal"
 palette_data_end:
 
 background_indices:
-incbin "assets/new_background.idx"
+incbin "assets/ship.idx"
 background_indices_end:
 
 background_parameters:
-incbin "assets/new_background.prm"
+incbin "assets/ship.prm"
 background_parameters_end:
 
-window_indices:
-incbin "assets/new_window.idx"
-window_indices_end:
+;window_indices:
+;incbin "assets/new_window.idx"
+;window_indices_end:
 
-window_parameters:
-incbin "assets/new_window.prm"
-window_parameters_end:
+;window_parameters:
+;incbin "assets/new_window.prm"
+;window_parameters_end:
 
 init_graphics:
-    InitOAM
-    LoadGraphicsDataIntoVRAM
+    ;InitOAM
+    ;call LoadTilesBank0
+    ;call LoadTilesBank1
+
     Copy [rBCPS], 0 | BCPSF_AUTOINC
     ld hl, palette_data
     ld c, palette_data_end - palette_data
@@ -375,6 +428,22 @@ init_graphics:
         Copy [rBCPD], [hli]
         dec c
         jr nz, .palette_copy
+
+    InitOAM
+    LoadGraphicsDataIntoVRAM
+
+    ;Copy [rVBK], 0
+    ;ld de, $000
+    ;ld hl, tileset
+    ;.tileset_copy
+        ;Copy [de], [hli]
+        ;inc de
+        ;ld a, l
+        ;cp a, low(tileset_end)
+        ;ld a, h
+        ;jr nz, .tilemap_indices_copy
+        ;cp a, high(tileset_end)
+        ;jr nz, .tileset_copy
 
     Copy [rVBK], 0
     ld de, _SCRN0
@@ -384,8 +453,8 @@ init_graphics:
         inc de
         ld a, l
         cp a, low(background_indices_end)
-        ld a, h
         jr nz, .tilemap_indices_copy
+        ld a, h
         cp a, high(background_indices_end)
         jr nz, .tilemap_indices_copy
 
@@ -398,37 +467,37 @@ init_graphics:
         inc de
         ld a, l
         cp a, low(background_parameters_end)
-        ld a, h
         jr nz, .tilemap_parameters_copy
+        ld a, h
         cp a, high(background_parameters_end)
         jr nz, .tilemap_parameters_copy
        
 
-    Copy [rVBK], 0
+    ;Copy [rVBK], 0
+    ;ld hl, window_indices
     ;ld de, $9C00
-    ld hl, window_indices
-    .window_indices_copy
-        Copy [de], [hli]
-        inc de
-        ld a, l
-        cp a, low(window_indices_end)
-        ld a, h
-        jr nz, .window_indices_copy
-        cp a, high(window_indices_end)
-        jr nz, .window_indices_copy
+    ;.window_indices_copy
+        ;Copy [de], [hli]
+        ;inc de
+        ;ld a, l
+        ;cp a, low(window_indices_end)
+        ;ld a, h
+        ;jr nz, .window_indices_copy
+        ;cp a, high(window_indices_end)
+        ;jr nz, .window_indices_copy
 
-    Copy [rVBK], 1
-    ld de, $9C00
-    ld hl, window_parameters
-    .window_parameters_copy
-        Copy [de], [hli]
-        inc de
-        ld a, l
-        cp a, low(window_parameters_end)
-        ld a, h
-        jr nz, .window_parameters_copy
-        cp a, high(window_parameters_end)
-        jr nz, .window_parameters_copy
+    ;Copy [rVBK], 1
+    ;ld de, $9C00
+    ;ld hl, window_parameters
+    ;.window_parameters_copy
+        ;Copy [de], [hli]
+        ;inc de
+        ;ld a, l
+        ;cp a, low(window_parameters_end)
+        ;ld a, h
+        ;jr nz, .window_parameters_copy
+        ;cp a, high(window_parameters_end)
+        ;jr nz, .window_parameters_copy
     ret
 
 export check_location, check_end, end_wait, reset_game, check_left_map

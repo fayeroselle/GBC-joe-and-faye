@@ -18,7 +18,7 @@ def TILES_COUNT                     equ (384)
 def BYTES_PER_TILE                  equ (16)
 def TILES_BYTE_SIZE                 equ (TILES_COUNT * BYTES_PER_TILE)
 
-def TILEMAPS_COUNT                  equ (2)
+def TILEMAPS_COUNT                  equ (1)
 def BYTES_PER_TILEMAP               equ (1024)
 def TILEMAPS_BYTE_SIZE              equ (TILEMAPS_COUNT * BYTES_PER_TILEMAP)
 
@@ -135,7 +135,7 @@ endm
 
 macro EnableLCD
     ; set the graphics parameters and turn back LCD on
-    ld a, LCDCF_ON | LCDCF_BG8800 | LCDCF_BG9800 | LCDCF_BGON | LCDCF_WINON | LCDCF_WIN9C00 |LCDCF_OBJ16 | LCDCF_OBJON
+    ld a, LCDCF_ON LCDCF_BG9800 | LCDCF_BGON | LCDF_8000
     ld [rLCDC], a
 
 endm

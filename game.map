@@ -1,5 +1,5 @@
 SUMMARY:
-	ROM0: 9533 bytes used / 23235 free
+	ROM0: 4677 bytes used / 28091 free
 
 ROM0 bank #0:
 	SECTION: $0000-$0029 ($002a bytes) ["house_message"]
@@ -14,7 +14,7 @@ ROM0 bank #0:
 	         $0155 = main
 	         $0155 = main.wait_vblank_u1
 	         $0168 = main.loop
-	SECTION: $016a-$0365 ($01fc bytes) ["player"]
+	SECTION: $016a-$0395 ($022c bytes) ["player"]
 	         $016a = make_sound
 	         $0183 = check_outer_right
 	         $0199 = check_outer_right.other_house
@@ -55,45 +55,49 @@ ROM0 bank #0:
 	         $0338 = second_checker
 	         $0355 = second_checker.done
 	         $0356 = time_up
-	SECTION: $0366-$0508 ($01a3 bytes) ["newplayer"]
-	         $0366 = init_player
-	         $03e5 = npc_wave
-	         $03ec = npc_wave.wave_frame2
-	         $03f2 = npc_wave.wave_frame1
-	         $03f8 = move_player
-	         $0411 = move_player.og_sprite_right
-	         $041b = move_player.check_right
-	         $0422 = move_player.done_right
-	         $043c = move_player.done_moving_right
-	         $0455 = move_player.og_sprite_left
-	         $045f = move_player.check_left
-	         $0466 = move_player.done_left
-	         $0480 = move_player.done_moving_left
-	         $0499 = move_player.og_sprite_up
-	         $04a3 = move_player.check_up
-	         $04aa = move_player.done_up
-	         $04c4 = move_player.done_moving_up
-	         $04dd = move_player.og_sprite_down
-	         $04e7 = move_player.check
-	         $04ee = move_player.done
-	         $0508 = move_player.done_moving_down
-	SECTION: $0509-$0617 ($010f bytes) ["newgraphics"]
-	         $0509 = init_graphics2
-	         $051e = init_graphics2.init_oam_u1
-	         $052a = init_graphics2.load_tile_u2
-	         $0567 = write_message
-	         $056a = write_message.loop
-	         $057c = write_message.new_line
-	         $0582 = write_message.end
-	         $0583 = display_message
-	         $0589 = remove_message
-	         $058f = message_process
-	         $0598 = message_process.wait_for_start
-	         $05ee = girl_appear
-	         $05f9 = girl_removed
-	         $0604 = flash_bg
-	         $0606 = flash_bg.loop
-	EMPTY: $0618-$0fff ($09e8 bytes)
+	         $0366 = LoadTilesBank0
+	         $0374 = LoadTilesBank0.copy_tiles0
+	         $037e = LoadTilesBank1
+	         $038c = LoadTilesBank1.copy_tiles1
+	SECTION: $0396-$0538 ($01a3 bytes) ["newplayer"]
+	         $0396 = init_player
+	         $0415 = npc_wave
+	         $041c = npc_wave.wave_frame2
+	         $0422 = npc_wave.wave_frame1
+	         $0428 = move_player
+	         $0441 = move_player.og_sprite_right
+	         $044b = move_player.check_right
+	         $0452 = move_player.done_right
+	         $046c = move_player.done_moving_right
+	         $0485 = move_player.og_sprite_left
+	         $048f = move_player.check_left
+	         $0496 = move_player.done_left
+	         $04b0 = move_player.done_moving_left
+	         $04c9 = move_player.og_sprite_up
+	         $04d3 = move_player.check_up
+	         $04da = move_player.done_up
+	         $04f4 = move_player.done_moving_up
+	         $050d = move_player.og_sprite_down
+	         $0517 = move_player.check
+	         $051e = move_player.done
+	         $0538 = move_player.done_moving_down
+	SECTION: $0539-$0647 ($010f bytes) ["newgraphics"]
+	         $0539 = init_graphics2
+	         $054e = init_graphics2.init_oam_u1
+	         $055a = init_graphics2.load_tile_u2
+	         $0597 = write_message
+	         $059a = write_message.loop
+	         $05ac = write_message.new_line
+	         $05b2 = write_message.end
+	         $05b3 = display_message
+	         $05b9 = remove_message
+	         $05bf = message_process
+	         $05c8 = message_process.wait_for_start
+	         $061e = girl_appear
+	         $0629 = girl_removed
+	         $0634 = flash_bg
+	         $0636 = flash_bg.loop
+	EMPTY: $0648-$0fff ($09b8 bytes)
 	SECTION: $1000-$1029 ($002a bytes) ["house_message2"]
 	         $1000 = MESSAGE_LABEL
 	EMPTY: $102a-$10ff ($00d6 bytes)
@@ -123,27 +127,21 @@ ROM0 bank #0:
 	EMPTY: $182a-$18ff ($00d6 bytes)
 	SECTION: $1900-$1929 ($002a bytes) ["level2_mess"]
 	         $1900 = LEVEL2_LABEL2
-	EMPTY: $192a-$1fff ($06d6 bytes)
-	SECTION: $2000-$3e5a ($1e5b bytes) ["graphics_data"]
-	         $2000 = tileset
-	         $2d90 = tileset_end
-	         $2d90 = palette_data
-	         $2dd0 = background_indices
-	         $2dd0 = palette_data_end
-	         $31d0 = background_parameters
-	         $31d0 = background_indices_end
-	         $35d0 = background_parameters_end
-	         $35d0 = window_indices
-	         $39d0 = window_indices_end
-	         $39d0 = window_parameters
-	         $3dd0 = window_parameters_end
-	         $3dd0 = init_graphics
-	         $3dd8 = init_graphics.init_oam_u2
-	         $3de4 = init_graphics.load_tile_u3
-	         $3df6 = init_graphics.palette_copy
-	         $3e08 = init_graphics.tilemap_indices_copy
-	         $3e20 = init_graphics.tilemap_parameters_copy
-	         $3e35 = init_graphics.window_indices_copy
-	         $3e4d = init_graphics.window_parameters_copy
-	EMPTY: $3e5b-$7fff ($41a5 bytes)
-	TOTAL EMPTY: $5ac3 bytes
+	EMPTY: $192a-$23ff ($0ad6 bytes)
+	SECTION: $2400-$2f32 ($0b33 bytes) ["graphics_data"]
+	         $2400 = tileset
+	         $2690 = tileset_end
+	         $2690 = palette_data
+	         $26d0 = background_indices
+	         $26d0 = palette_data_end
+	         $2ad0 = background_parameters
+	         $2ad0 = background_indices_end
+	         $2ed0 = background_parameters_end
+	         $2ed0 = init_graphics
+	         $2eda = init_graphics.palette_copy
+	         $2ee9 = init_graphics.init_oam_u2
+	         $2ef5 = init_graphics.load_tile_u3
+	         $2f0d = init_graphics.tilemap_indices_copy
+	         $2f25 = init_graphics.tilemap_parameters_copy
+	EMPTY: $2f33-$7fff ($50cd bytes)
+	TOTAL EMPTY: $6dbb bytes
