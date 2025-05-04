@@ -76,6 +76,8 @@ main:
     EnableLCD
     .loop
     jr .loop
+
+    ret 
     ;InitJoypad
 
     ;display start screen until start is pressed
