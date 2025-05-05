@@ -135,7 +135,7 @@ endm
 
 macro EnableLCD
     ; set the graphics parameters and turn back LCD on
-    ld a, LCDCF_ON | LCDCF_BG9800 | LCDCF_BGON | LCDF_8000
+    ld a, LCDCF_ON | LCDCF_BG9800 | LCDCF_BGON | LCDF_BG8000
     ld [rLCDC], a
 
 endm
