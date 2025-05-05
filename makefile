@@ -19,5 +19,5 @@ build/graphics.o: build src/graphics.asm src/hardware.inc src/utils.inc
 build/player.o: build src/player.asm src/hardware.inc src/utils.inc
 	rgbasm -o build/player.o src/player.asm
 
-build/main.o: build src/main.asm src/hardware.inc assets/*.tlm assets/*.chr
+build/main.o: build src/main.asm src/hardware.inc assets/*.chr assets/*.pal assets/*.idx assets/*.prm
 	rgbasm -o build/main.o src/main.asm
