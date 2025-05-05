@@ -72,12 +72,12 @@ section "level2_mess", rom0[$1900]
 section "main", rom0[$0155]
 main:
     DisableLCD
+    push af
     call init_graphics
+    pop af
     EnableLCD
     .loop
     jr .loop
-
-    ret 
     ;InitJoypad
 
     ;display start screen until start is pressed
